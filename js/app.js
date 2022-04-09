@@ -1,20 +1,18 @@
-/* When the user clicks on the button, 
-toggle between hiding and showing the dropdown content */
-function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
+function randomActivityGenerator(){
+    axios.request({
+        method:"GET",
+        url:"http://www.boredapi.com/api/activity/"
+    }).then(activityFound).catch(activityFail);
 }
 
-  // Close the dropdown if the user clicks outside of it
-window.onclick = function(event) {
-    if (!event.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-        var openDropdown = dropdowns[i];
-        if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
-        }
-    }
-    }
+function activityFound (response){
+    console.log(response);
+    document.getElementById("randomActivity").innerText=response.data.activity;
 }
 
+function activityFail (error){
+    console.log(error);
+    document.getElementById("randomActivity").innerText="failed to get activity";
+}
+
+document.getElementById("randomActivityButton").addEventListener('click', randomActivityGenerator);
